@@ -48,7 +48,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         // private final PigeonIMU m_pigeon = new PigeonIMU(DRIVETRAIN_PIGEON_ID);
         // private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX
         // connected over MXP
-        private final AHRS navx = new AHRS(SPI.Port.kMXP, (byte) 200);
+        //private final AHRS navx = new AHRS(SPI.Port.kMXP, (byte) 200);
 
         // swerve modules ** initialized in constructor
         private final SwerveModule m_frontLeftModule;
@@ -118,18 +118,19 @@ public class DrivetrainSubsystem extends SubsystemBase {
         // zeroes gyroscope ** used to set direction of robot to "forward"
         public void zeroGyroscope() {
                 // m_pigeon.setFusedHeading(0.0);
-                navx.zeroYaw();
+                //navx.zeroYaw();
         }
 
         public Rotation2d getGyroscopeRotation() {
                 // return Rotation2d.fromDegrees(m_pigeon.getFusedHeading());
 
-                if (navx.isMagnetometerCalibrated()) {
+                /*if (navx.isMagnetometerCalibrated()) {
                         // only get valid fused headings if the magnetometer is calibrated
                         return Rotation2d.fromDegrees(navx.getFusedHeading());
-                }
+                }*/
                 // rotating the robot counter-clockwise makes the angle increase.
-                return Rotation2d.fromDegrees(360.0 - navx.getYaw());
+        //        return Rotation2d.fromDegrees(360.0 - navx.getYaw());
+        return null;
         }
 
         public void drive(ChassisSpeeds chassisSpeeds) {
@@ -154,8 +155,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 SmartDashboard.putNumber("BACK RIGHT: ", m_backRightModule.getSteerAngle());
                 SmartDashboard.putNumber("FRONT LEFT: ", m_frontLeftModule.getSteerAngle());
                 SmartDashboard.putNumber("FRONT RIGHT: ", m_frontRightModule.getSteerAngle());
-                SmartDashboard.putNumber("NAVX: YAW", navx.getYaw());
-                SmartDashboard.putNumber("NAVX l:", navx.getCompassHeading());
+                //SmartDashboard.putNumber("NAVX: YAW", navx.getYaw());
+                //SmartDashboard.putNumber("NAVX l:", navx.getCompassHeading());
                 SmartDashboard.putString("Auto: ", "Periodic method");
         }
 }
