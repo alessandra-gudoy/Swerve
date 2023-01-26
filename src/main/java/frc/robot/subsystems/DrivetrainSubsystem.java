@@ -25,10 +25,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         public static final double MAX_VOLTAGE = 9.0;
 
         // robot's max speed (m/s) ** how fast robot drives in straight line
-        public static final double MAX_VELOCITY_METERS_PER_SECOND = 13.5 / 60.0 * SdsModuleConfigurations.MK4_L1.getDriveReduction() * SdsModuleConfigurations.MK4_L1.getWheelDiameter() * Math.PI;
-                        /* 6380.0 / 60.0 *
-                        SdsModuleConfigurations.MK3_STANDARD.getDriveReduction() *
-                        SdsModuleConfigurations.MK3_STANDARD.getWheelDiameter() * Math.PI; */
+        public static final double MAX_VELOCITY_METERS_PER_SECOND = //13.5 / 60.0 * SdsModuleConfigurations.MK4I_L1.getDriveReduction() * SdsModuleConfigurations.MK4I_L1.getWheelDiameter() * Math.PI;
+                         6380.0 / 60.0 *
+                        SdsModuleConfigurations.MK4I_L1.getDriveReduction() *
+                        SdsModuleConfigurations.MK4I_L1.getWheelDiameter() * Math.PI;
 
         // maximum angular velocity (rad/sec) ** how fast robot rotates
         public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
@@ -48,7 +48,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         // private final PigeonIMU m_pigeon = new PigeonIMU(DRIVETRAIN_PIGEON_ID);
         // private final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200); // NavX
         // connected over MXP
-        //private final AHRS navx = new AHRS(SPI.Port.kMXP, (byte) 200);
+        private final AHRS navx = new AHRS(SPI.Port.kMXP, (byte) 200);
 
         // swerve modules ** initialized in constructor
         private final SwerveModule m_frontLeftModule;
@@ -80,7 +80,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 
                 m_frontLeftModule = Mk4iSwerveModuleHelper.createFalcon500Neo(
                                 tab.getLayout("Front Left Module", BuiltInLayouts.kList)
-                                                .withSize(2, 4).withPosition(0, 0),
+                                               .withSize(2, 4).withPosition(0, 0),
                                 Mk4iSwerveModuleHelper.GearRatio.L1,
                                 FRONT_LEFT_MODULE_DRIVE_MOTOR,
                                 FRONT_LEFT_MODULE_STEER_MOTOR,
@@ -88,8 +88,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
                                 FRONT_LEFT_MODULE_STEER_OFFSET);
 
                 m_backLeftModule = Mk4iSwerveModuleHelper.createFalcon500Neo(
-                                tab.getLayout("Front Left Module", BuiltInLayouts.kList)
-                                                .withSize(2, 4).withPosition(0, 0),
+                                tab.getLayout("Back Left Module", BuiltInLayouts.kList)
+                                               .withSize(2, 4).withPosition(0, 0),
                                 Mk4iSwerveModuleHelper.GearRatio.L1,
                                 BACK_LEFT_MODULE_DRIVE_MOTOR,
                                 BACK_LEFT_MODULE_STEER_MOTOR,
@@ -97,8 +97,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
                                 BACK_LEFT_MODULE_STEER_OFFSET);
 
                 m_frontRightModule = Mk4iSwerveModuleHelper.createFalcon500Neo(
-                                tab.getLayout("Front Left Module", BuiltInLayouts.kList)
-                                                .withSize(2, 4).withPosition(0, 0),
+                                tab.getLayout("Front Right Module", BuiltInLayouts.kList)
+                                               .withSize(2, 4).withPosition(0, 0),
                                 Mk4iSwerveModuleHelper.GearRatio.L1,
                                 FRONT_RIGHT_MODULE_DRIVE_MOTOR,
                                 FRONT_RIGHT_MODULE_STEER_MOTOR,
@@ -106,8 +106,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
                                 FRONT_RIGHT_MODULE_STEER_OFFSET);
 
                 m_backRightModule = Mk4iSwerveModuleHelper.createFalcon500Neo(
-                                tab.getLayout("Front Left Module", BuiltInLayouts.kList)
-                                                .withSize(2, 4).withPosition(0, 0),
+                                tab.getLayout("Back Right Module", BuiltInLayouts.kList)
+                                               .withSize(2, 4).withPosition(0, 0),
                                 Mk4iSwerveModuleHelper.GearRatio.L1,
                                 BACK_RIGHT_MODULE_DRIVE_MOTOR,
                                 BACK_RIGHT_MODULE_STEER_MOTOR,
@@ -118,7 +118,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         // zeroes gyroscope ** used to set direction of robot to "forward"
         public void zeroGyroscope() {
                 // m_pigeon.setFusedHeading(0.0);
-                //navx.zeroYaw();
+                navx.zeroYaw();
         }
 
         public Rotation2d getGyroscopeRotation() {
@@ -129,8 +129,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
                         return Rotation2d.fromDegrees(navx.getFusedHeading());
                 }*/
                 // rotating the robot counter-clockwise makes the angle increase.
-        //        return Rotation2d.fromDegrees(360.0 - navx.getYaw());
-        return null;
+                return Rotation2d.fromDegrees(360.0 - navx.getYaw());
+                //return null;
         }
 
         public void drive(ChassisSpeeds chassisSpeeds) {
@@ -155,8 +155,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 SmartDashboard.putNumber("BACK RIGHT: ", m_backRightModule.getSteerAngle());
                 SmartDashboard.putNumber("FRONT LEFT: ", m_frontLeftModule.getSteerAngle());
                 SmartDashboard.putNumber("FRONT RIGHT: ", m_frontRightModule.getSteerAngle());
-                //SmartDashboard.putNumber("NAVX: YAW", navx.getYaw());
-                //SmartDashboard.putNumber("NAVX l:", navx.getCompassHeading());
+                SmartDashboard.putNumber("NAVX: YAW", navx.getYaw());
+                SmartDashboard.putNumber("NAVX l:", navx.getCompassHeading());
                 SmartDashboard.putString("Auto: ", "Periodic method");
+
+                SmartDashboard.putNumber("Drive Velocity", m_frontLeftModule.getDriveVelocity());
         }
 }
