@@ -133,6 +133,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 //return null;
         }
 
+        public double getDegrees(){
+                return navx.getCompassHeading();
+        }
+
         public void drive(ChassisSpeeds chassisSpeeds) {
                 m_chassisSpeeds = chassisSpeeds;
         }

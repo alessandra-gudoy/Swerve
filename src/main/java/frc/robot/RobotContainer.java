@@ -25,23 +25,28 @@ public class RobotContainer {
     // Left stick Y axis -> forward and backwards movement
     // Left stick X axis -> left and right movement
     // Right stick X axis -> rotation
+    m_drivetrainSubsystem.zeroGyroscope();
     m_drivetrainSubsystem.setDefaultCommand(new RobotOrientDrive(
         m_drivetrainSubsystem,
-        () -> -modifyAxis(-m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(m_controller.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+        // () -> -modifyAxis(-m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+        // () -> -modifyAxis(m_controller.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+        // () -> -modifyAxis(m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
+
+        // for field orient
+        () -> -modifyAxis(-m_controller.getLeftX()) * Math.cos(m_drivetrainSubsystem.getDegrees()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+        () -> -modifyAxis(m_controller.getLeftY()) * Math.sin(m_drivetrainSubsystem.getDegrees()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
         () -> -modifyAxis(m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
 
     configureButtonBindings();
   }
 
   private void configureButtonBindings() {
-    // Back button zeros the gyroscope
-    //new Button(m_controller::getAButton)
-        // No requirements because we don't need to interrupt anything
-        //.whenPressed(m_drivetrainSubsystem::zeroGyroscope);
-
-
-    //new JoystickButton(m_controller, 5).onTrue(new m_drivetrainSubsystem.zeroGyroscope());
+    new JoystickButton(m_controller, 5).whileTrue(
+      new DefaultDriveCommand(
+        m_drivetrainSubsystem, 
+        () -> -modifyAxis(-m_controller.getLeftX()) * Math.cos(m_drivetrainSubsystem.getDegrees()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+        () -> -modifyAxis(m_controller.getLeftY()) * Math.sin(m_drivetrainSubsystem.getDegrees()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+        () -> -modifyAxis(m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
   }
 
   public Command getAutonomousCommand() {
