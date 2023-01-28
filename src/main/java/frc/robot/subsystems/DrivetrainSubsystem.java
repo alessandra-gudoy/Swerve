@@ -26,10 +26,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         // robot's max speed (m/s) ** how fast robot drives in straight line
         // 6380.0 RPM (https://store.ctr-electronics.com/falcon-500-powered-by-talon-fx/)
-        public static final double MAX_VELOCITY_METERS_PER_SECOND = 4.1148; //13.5 / 60.0 * SdsModuleConfigurations.MK4I_L1.getDriveReduction() * SdsModuleConfigurations.MK4I_L1.getWheelDiameter() * Math.PI;
-                        // 6380.0 / 60.0 *
-                        // SdsModuleConfigurations.MK4I_L1.getDriveReduction() *
-                        // SdsModuleConfigurations.MK4I_L1.getWheelDiameter() * Math.PI;
+        public static final double MAX_VELOCITY_METERS_PER_SECOND = //13.5 / 60.0 * SdsModuleConfigurations.MK4I_L1.getDriveReduction() * SdsModuleConfigurations.MK4I_L1.getWheelDiameter() * Math.PI;
+                        6380.0 / 60.0 *
+                        SdsModuleConfigurations.MK4I_L1.getDriveReduction() *
+                        SdsModuleConfigurations.MK4I_L1.getWheelDiameter() * Math.PI;
 
         // maximum angular velocity (rad/sec) ** how fast robot rotates
         public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
