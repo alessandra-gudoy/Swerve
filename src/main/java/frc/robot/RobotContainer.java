@@ -28,25 +28,25 @@ public class RobotContainer {
     m_drivetrainSubsystem.zeroGyroscope();
     m_drivetrainSubsystem.setDefaultCommand(new RobotOrientDrive(
         m_drivetrainSubsystem,
+        () -> -modifyAxis(m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+        () -> -modifyAxis(m_controller.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+        () -> -modifyAxis(m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
+
+        // for field orient
         // () -> -modifyAxis(-m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
         // () -> -modifyAxis(m_controller.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
         // () -> -modifyAxis(m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
-
-        // for field orient
-        () -> -modifyAxis(-m_controller.getLeftX()) * Math.cos(m_drivetrainSubsystem.getDegrees()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(m_controller.getLeftY()) * Math.sin(m_drivetrainSubsystem.getDegrees()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
 
     configureButtonBindings();
   }
 
   private void configureButtonBindings() {
-    new JoystickButton(m_controller, 5).whileTrue(
-      new DefaultDriveCommand(
-        m_drivetrainSubsystem, 
-        () -> -modifyAxis(-m_controller.getLeftX()) * Math.cos(m_drivetrainSubsystem.getDegrees()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(m_controller.getLeftY()) * Math.sin(m_drivetrainSubsystem.getDegrees()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
+    // new JoystickButton(m_controller, 5).whileTrue(
+    //   new DefaultDriveCommand(
+    //     m_drivetrainSubsystem, 
+    //     () -> -modifyAxis(-m_controller.getRightY()) * Math.cos(m_drivetrainSubsystem.getDegrees()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+    //     () -> -modifyAxis(m_controller.getLeftY()) * Math.sin(m_drivetrainSubsystem.getDegrees()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+    //     () -> -modifyAxis(m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
   }
 
   public Command getAutonomousCommand() {
@@ -69,7 +69,7 @@ public class RobotContainer {
 
   private static double modifyAxis(double value) {
     // Deadband
-    value = deadband(value, 0.05);
+    value = deadband(value, 0.10);
 
     // Square the axis
     value = Math.copySign(value * value, value);
