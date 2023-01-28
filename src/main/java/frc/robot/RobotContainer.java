@@ -23,7 +23,7 @@ public class RobotContainer {
     // Left stick X axis -> left and right movement
     // Right stick X axis -> rotation
     //m_drivetrainSubsystem.zeroGyroscope();
-    m_drivetrainSubsystem.setDefaultCommand(new RobotOrientDrive(
+    m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
         m_drivetrainSubsystem,
         () -> -modifyAxis(m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
         () -> modifyAxis(m_controller.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
@@ -38,12 +38,12 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    // new JoystickButton(m_controller, 5).whileTrue(
-    //   new DefaultDriveCommand(
-    //     m_drivetrainSubsystem, 
-    //     () -> -modifyAxis(-m_controller.getRightY()) * Math.cos(m_drivetrainSubsystem.getDegrees()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-    //     () -> -modifyAxis(m_controller.getLeftY()) * Math.sin(m_drivetrainSubsystem.getDegrees()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-    //     () -> -modifyAxis(m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
+    new JoystickButton(m_controller, 5).whileTrue(
+      new RobotOrientDrive(
+        m_drivetrainSubsystem,
+        () -> -modifyAxis(m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+        () -> modifyAxis(m_controller.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+        () -> -modifyAxis(-m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND));
   }
 
   public Command getAutonomousCommand() {

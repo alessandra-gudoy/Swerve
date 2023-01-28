@@ -22,7 +22,7 @@ import static frc.robot.Constants.*;
 public class DrivetrainSubsystem extends SubsystemBase {
 
         // the maximum voltage that will be delivered to the drive motors.
-        public static final double MAX_VOLTAGE = 9.0;
+        public static final double MAX_VOLTAGE = 11.0;
 
         // robot's max speed (m/s) ** how fast robot drives in straight line
         // 6380.0 RPM (https://store.ctr-electronics.com/falcon-500-powered-by-talon-fx/)
@@ -162,7 +162,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
                 SmartDashboard.putNumber("FRONT LEFT: ", m_frontLeftModule.getSteerAngle());
                 SmartDashboard.putNumber("FRONT RIGHT: ", m_frontRightModule.getSteerAngle());
                 SmartDashboard.putNumber("NAVX: YAW", navx.getYaw());
-                SmartDashboard.putNumber("NAVX l:", navx.getCompassHeading());
+                SmartDashboard.putNumber("NAVX: ROLL", navx.getRoll());
+                SmartDashboard.putNumber("NAVX: PITCH", navx.getPitch());
+                SmartDashboard.putNumber("NAVX: getFusedHeading(): ", navx.getFusedHeading());
+                SmartDashboard.putNumber("NAVX: getCompassHeading()", navx.getCompassHeading());
                 SmartDashboard.putString("Auto: ", "Periodic method");
 
                 SmartDashboard.putNumber("Drive Velocity", m_frontLeftModule.getDriveVelocity());
