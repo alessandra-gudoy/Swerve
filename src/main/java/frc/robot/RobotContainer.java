@@ -23,7 +23,7 @@ public class RobotContainer {
     // Left stick X axis -> left and right movement
     // Right stick X axis -> rotation
     //m_drivetrainSubsystem.zeroGyroscope();
-    m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
+    m_drivetrainSubsystem.setDefaultCommand(new RobotOrientDrive(
         m_drivetrainSubsystem,
         () -> -modifyAxis(m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
         () -> modifyAxis(m_controller.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
